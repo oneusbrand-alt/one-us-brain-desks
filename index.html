@@ -1,163 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>One US Brain — Founder Desks</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>One US Brain desks</title>
 <style>
-  :root { --ink:#1c1915; --muted:#6e675e; --line:#e4ddd2; --paper:#f3efe8; --card:#fffcf8; --gold:#8a6a32; }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--paper); color:var(--ink); font-family: Georgia, Palatino, serif; }
-  button, input { font: inherit; color: inherit; }
-  .shell { max-width: 480px; margin: 0 auto; padding: 16px 16px 56px; }
-  .top { display:flex; justify-content:space-between; font: 11px/1 -apple-system, sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
-  h1 { font-size: 34px; line-height:1; margin: 16px 0 4px; }
-  .who { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
-  .switch { display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 14px; }
-  .switch button, .back { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 9px 6px; font-family: -apple-system, sans-serif; font-size: 13px; }
-  .switch button.on { background: var(--ink); color: var(--paper); }
-  .ask { display:flex; gap:8px; margin-bottom: 12px; }
-  .ask input { width: 100%; border: 1px solid var(--line); background: var(--card); border-radius: 12px; padding: 12px; }
-  .ask button { border:0; background:var(--ink); color:var(--paper); border-radius:12px; padding: 0 14px; font-family:-apple-system,sans-serif; font-size:13px; }
-  .q, .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:8px; }
-  .q b { display:block; font: 10px/1.2 -apple-system,sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
-  .q p { margin:0; }
-  h2 { font: 600 11px/1 -apple-system,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin: 18px 0 8px; }
-  .card { display:block; width:100%; text-align:left; border-radius:14px; }
-  .card strong { display:block; font-size:16px; }
-  .card em { font-style:normal; color:var(--muted); font: 13px/1.35 -apple-system,sans-serif; }
-  .desk, .roomview { display:none; }
-  .desk.on, .roomview.on { display:block; }
-  .fix { border-left: 3px solid var(--gold); }
-  a { color: var(--ink); }
-  .fine { margin-top:18px; font: 12px/1.45 -apple-system,sans-serif; color:var(--muted); }
+  :root { --ink:#1c1915; --muted:#6d655c; --line:#e3dbd0; --paper:#f3efe8; --card:#fffcf8; --gold:#8a6a32; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia, Palatino, serif; }
+  button, input, textarea { font:inherit; color:inherit; }
+  .shell { max-width:760px; margin:0 auto; padding:14px 14px 48px; }
+  .top { display:flex; justify-content:space-between; font:11px/1 -apple-system,sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:32px; margin:14px 0 2px; }
+  .who { margin:0 0 12px; color:var(--muted); }
+  .switch { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+  .switch button, .back, .ghost { border:1px solid var(--line); background:transparent; border-radius:999px; padding:10px; font-family:-apple-system,sans-serif; font-size:14px; }
+  .switch button.on { background:var(--ink); color:var(--paper); }
+  .q, .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; margin-bottom:8px; }
+  .q b, h2 { font:600 11px/1.2 -apple-system,sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); }
+  h2 { color:var(--muted); margin:16px 0 8px; }
+  .card { display:block; width:100%; text-align:left; }
+  .card strong { display:block; font-size:17px; }
+  .card em { font-style:normal; color:var(--muted); font:13px/1.35 -apple-system,sans-serif; }
+  .desk, .room { display:none; }
+  .desk.on, .room.on { display:block; }
+  img.poster { width:100%; border-radius:12px; display:block; margin:8px 0; }
+  iframe { width:100%; height:68vh; border:1px solid var(--line); border-radius:12px; background:#fff; }
+  textarea { width:100%; border:1px solid var(--line); border-radius:12px; padding:10px; background:#fff; }
+  .row { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .row button, .solid { border:0; background:var(--ink); color:var(--paper); border-radius:12px; padding:10px 14px; font-family:-apple-system,sans-serif; }
+  .mark { border-left:3px solid var(--gold); }
+  a { color:var(--ink); }
 </style>
 </head>
 <body>
 <div class="shell">
-  <div class="top"><span>One US Brain</span><span>Founder preview</span></div>
+  <div class="top"><span>One US Brain</span><span>Two founder desks</span></div>
   <div class="switch" id="switch">
-    <button id="b1" class="on" type="button">Hawk</button>
-    <button id="b2" type="button">Jeff</button>
-    <button id="b3" type="button">Lodge</button>
+    <button id="bHawk" class="on" type="button">Hawk</button>
+    <button id="bJeff" type="button">Jeff</button>
   </div>
-  <section id="hawk" class="desk on">
-    <h1>Hawk</h1>
-    <p class="who">Haakon A. Kallweit · Brain 1 · meant for 1.oneusbrain.space</p>
-    <form class="ask" data-log="hawk-log"><input name="q" placeholder="Ask Evergreen" /><button type="submit">Keep</button></form>
-    <div id="hawk-log"></div>
-    <div class="q"><b>Needs attention</b><p>The lodge site is the build to change. Tap It is started, not published.</p></div>
-    <div class="q"><b>Responsible for</b><p>Lodge, MasonBrain, Jake &amp; the Pitchforks, Broken Putter, Gymnastics.</p></div>
-    <div class="q"><b>Right now</b><p>Open MasonBrain and mark what you want changed.</p></div>
-    <h2>Waiting for Hawk</h2>
-    <button class="card fix" data-room="mason"><strong>MasonBrain site changes</strong><em>Not named yet. This is the open job.</em></button>
-    <button class="card" data-room="tap"><strong>Tap It newspaper</strong><em>Started. Do not finish it in this pass.</em></button>
-    <h2>Projects</h2>
-    <button class="card" data-room="lodge"><strong>Pine Tree Trail Lodge</strong><em>Operating lead</em></button>
-    <button class="card" data-room="mason"><strong>MasonBrain</strong><em>Sales lead · Meridian Lodge 125</em></button>
-    <button class="card" data-room="jake"><strong>Jake &amp; the Pitchforks</strong><em>Primary lead</em></button>
-    <button class="card" data-room="putter"><strong>Broken Putter / JW Parks</strong><em>Primary lead</em></button>
-    <button class="card" data-room="gym"><strong>Gymnastics / XGTC</strong><em>Primary lead</em></button>
-    <h2>Shared with Jeff</h2>
-    <button class="card" data-room="mason"><strong>Meridian Lodge site</strong><em>Live build. Changes open.</em></button>
-    <button class="card" data-room="tap"><strong>Tap It — Table Lodge</strong><em>Front page started.</em></button>
-    <h2>Money</h2>
-    <p class="who">Nothing connected. No number invented.</p>
-  </section>
-  <section id="jeff" class="desk">
-    <h1>Jeff</h1>
-    <p class="who">Jeff Gonzalez · Brain 2 · meant for 2.oneusbrain.space</p>
-    <form class="ask" data-log="jeff-log"><input name="q" placeholder="Ask Evergreen" /><button type="submit">Keep</button></form>
-    <div id="jeff-log"></div>
-    <div class="q"><b>Needs attention</b><p>Same shared rooms as Hawk. Your desk is not a second copy of his jobs.</p></div>
-    <div class="q"><b>Responsible for</b><p>One US Brand, Sellout City, catalog, radio, and the shared rooms.</p></div>
-    <div class="q"><b>Right now</b><p>Send this page to Hawk. His marks come back here.</p></div>
-    <h2>Waiting for Jeff</h2>
-    <button class="card fix" data-room="mason"><strong>Lodge site changes</strong><em>Shared. Waiting on Hawk’s marks.</em></button>
-    <h2>Projects</h2>
-    <button class="card" data-room="brand"><strong>One US Brand</strong><em>Holding brand</em></button>
-    <button class="card" data-room="sellout"><strong>Sellout City</strong><em>Character universe</em></button>
-    <button class="card" data-room="catalog"><strong>Lil’ Ryder / HAK</strong><em>Catalog and sync</em></button>
-    <button class="card" data-room="radio"><strong>Pine Tree Trail Lodge Radio</strong><em>Station</em></button>
-    <h2>Shared with Hawk</h2>
-    <button class="card" data-room="mason"><strong>Meridian Lodge site</strong><em>Live build. Changes open.</em></button>
-    <button class="card" data-room="tap"><strong>Tap It — Table Lodge</strong><em>Front page started.</em></button>
-    <button class="card" data-room="lodge"><strong>Pine Tree Trail Lodge</strong><em>Shared operating context</em></button>
-    <h2>Money</h2>
-    <p class="who">Nothing connected. No number invented.</p>
-  </section>
-  <section id="lodge" class="desk">
-    <h1>Lodge</h1>
-    <p class="who">Proposal only. Not a member brain yet.</p>
-    <div class="q"><b>The offer</b><p>One environment. A person gets a desk. The lodge gets a shared brain. Same system as Hawk and Jeff, not a second app.</p></div>
-    <h2>A member desk can hold</h2>
-    <div class="card"><strong>Study</strong><em>Degree work, history, the handbook. Private to that brother unless he shares it.</em></div>
-    <div class="card"><strong>Mason projects</strong><em>Table Lodge, charity, building, events. The room holds the real objects.</em></div>
-    <div class="card"><strong>Business</strong><em>His own work, separate from lodge business. No cross-desk leakage.</em></div>
-    <h2>What we would propose</h2>
-    <div class="card"><strong>Meridian Lodge No. 125 first</strong><em>Pittsfield. The site already exists. Member desks come after Hawk marks the site.</em></div>
-    <div class="card"><strong>Not in the first proposal</strong><em>A finished Tap It. A finance dashboard. A brain that decides what deserves attention.</em></div>
-  </section>
-  <section id="room" class="roomview">
-    <button class="back" id="back" type="button">Back to desk</button>
-    <h1 id="room-title">Project</h1>
-    <p class="who" id="room-sub"></p>
-    <div id="room-body"></div>
-  </section>
-  <p class="fine">Homes stay 1.oneusbrain.space and 2.oneusbrain.space. This URL is the preview.</p>
+  <section id="hawk" class="desk on"></section>
+  <section id="jeff" class="desk"></section>
+  <section id="room" class="room"></section>
 </div>
 <script>
-const desks = { hawk: document.getElementById('hawk'), jeff: document.getElementById('jeff'), lodge: document.getElementById('lodge') };
-const buttons = { hawk: document.getElementById('b1'), jeff: document.getElementById('b2'), lodge: document.getElementById('b3') };
-const room = document.getElementById('room');
+const KEY = "ousb-desk-v2";
+const seed = { who:"hawk", poster:"", marks:[
+  { id:"m1", room:"mason", by:"desk", text:"Lodge site is the customer build. Write the change here. It shows on both desks.", at:"2026-10-01" }
+]};
+let db = JSON.parse(localStorage.getItem(KEY) || "null") || seed;
 const rooms = {
-  mason: ['MasonBrain', 'Meridian Lodge No. 125', '<p>The live site is the object.</p><p><a href="https://125maine.masonbrain.org/" target="_blank" rel="noopener">Open 125maine.masonbrain.org</a></p><p>Changes Hawk wants: not named yet.</p>'],
-  tap: ['Tap It', 'Table Lodge front page', '<p>Started. Newspaper tap is not published.</p>'],
-  lodge: ['Pine Tree Trail Lodge', 'Operating context', '<p>Property lead is Hawk. Shared with Jeff. No files attached on this preview.</p>'],
-  jake: ['Jake & the Pitchforks', 'Primary lead: Hawk', '<p>No files attached on this preview.</p>'],
-  putter: ['Broken Putter / JW Parks', 'Primary lead: Hawk', '<p>No files attached on this preview.</p>'],
-  gym: ['Gymnastics / XGTC', 'Primary lead: Hawk', '<p>No files attached on this preview.</p>'],
-  brand: ['One US Brand', 'Jeff', '<p>No files attached on this preview.</p>'],
-  sellout: ['Sellout City', 'Jeff', '<p>No files attached on this preview.</p>'],
-  catalog: ['Lil Ryder / HAK', 'Jeff', '<p>No rights data attached. Nothing exported.</p>'],
-  radio: ['Pine Tree Trail Lodge Radio', 'Jeff', '<p>No files attached on this preview.</p>']
+  mason:{ title:"MasonBrain", sub:"Customer: Meridian Lodge No. 125. Not a founder.", site:"https://125maine.masonbrain.org/" },
+  tap:{ title:"Tap It", sub:"Started. Newspaper tap is not published.", site:null },
+  lodge:{ title:"Pine Tree Trail Lodge", sub:"Hawk operating lead. Shared with Jeff.", site:"https://pinetreetraillodge.com" },
+  jake:{ title:"Jake & the Pitchforks", sub:"Hawk primary lead.", site:null },
+  putter:{ title:"Broken Putter / JW Parks", sub:"Hawk primary lead.", site:null },
+  gym:{ title:"Gymnastics / XGTC", sub:"Hawk primary lead.", site:null },
+  brand:{ title:"One US Brand", sub:"Jeff.", site:"https://oneusbrand.com" },
+  sellout:{ title:"Sellout City", sub:"Jeff.", site:"https://selloutcity.com" },
+  catalog:{ title:"Lil' Ryder / HAK", sub:"No rights data on this desk.", site:null },
+  radio:{ title:"Pine Tree Trail Lodge Radio", sub:"Jeff.", site:null }
 };
-function show(name) {
-  Object.values(desks).forEach(d => d.classList.remove('on'));
-  Object.values(buttons).forEach(b => b.classList.remove('on'));
-  room.classList.remove('on');
-  document.getElementById('switch').style.display = 'grid';
-  desks[name].classList.add('on');
-  buttons[name].classList.add('on');
+function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
+function marksFor(room){ return db.marks.filter(m => m.room===room); }
+function card(title, em, room){ return `<button class="card" data-room="${room}"><strong>${title}</strong><em>${em}</em></button>`; }
+function markHtml(list){ return list.map(m => `<div class="card mark"><strong>${m.by} · ${m.at}</strong><em>${m.text}</em></div>`).join("") || `<p class="who">No marks yet.</p>`; }
+function renderDesk(who){
+  const shared = markHtml(marksFor("mason").concat(marksFor("tap")).slice(0,6));
+  if(who==="hawk") return `<h1>Hawk</h1><p class="who">Haakon A. Kallweit · Brain 1</p><div class="q"><b>Right now</b><p>Open MasonBrain. Write the site change. It stays, and Jeff sees it.</p></div><h2>Shared marks</h2>${shared}<h2>Projects</h2>${card("MasonBrain","Customer work · open the site","mason")}${card("Tap It","Put the front page in the room","tap")}${card("Pine Tree Trail Lodge","Operating lead","lodge")}${card("Jake & the Pitchforks","Primary lead","jake")}${card("Broken Putter / JW Parks","Primary lead","putter")}${card("Gymnastics / XGTC","Primary lead","gym")}`;
+  return `<h1>Jeff</h1><p class="who">Jeff Gonzalez · Brain 2</p><div class="q"><b>Right now</b><p>Same customer room. Not a copy of Hawk's jobs.</p></div><h2>Shared marks</h2>${shared}<h2>Projects</h2>${card("One US Brand","Holding brand","brand")}${card("Sellout City","Character universe","sellout")}${card("Lil' Ryder / HAK","Catalog and sync","catalog")}${card("Pine Tree Trail Lodge Radio","Station","radio")}<h2>Shared with Hawk</h2>${card("MasonBrain","Customer · lodge site","mason")}${card("Tap It","Started, not published","tap")}${card("Pine Tree Trail Lodge","Shared","lodge")}`;
 }
-buttons.hawk.onclick = () => show('hawk');
-buttons.jeff.onclick = () => show('jeff');
-buttons.lodge.onclick = () => show('lodge');
-document.querySelectorAll('[data-room]').forEach(btn => btn.onclick = () => {
-  const data = rooms[btn.dataset.room];
-  document.getElementById('room-title').textContent = data[0];
-  document.getElementById('room-sub').textContent = data[1];
-  document.getElementById('room-body').innerHTML = data[2];
-  Object.values(desks).forEach(d => d.classList.remove('on'));
-  document.getElementById('switch').style.display = 'none';
-  room.classList.add('on');
-});
-document.getElementById('back').onclick = () => {
-  const active = document.querySelector('.switch button.on');
-  show(active.id === 'b2' ? 'jeff' : active.id === 'b3' ? 'lodge' : 'hawk');
-};
-document.querySelectorAll('.ask').forEach(form => form.onsubmit = (e) => {
-  e.preventDefault();
-  const value = form.q.value.trim();
-  if (!value) return;
-  const log = document.getElementById(form.dataset.log);
-  const p = document.createElement('div');
-  p.className = 'card';
-  p.innerHTML = '<strong>Kept</strong><em></em>';
-  p.querySelector('em').textContent = value;
-  log.prepend(p);
-  form.q.value = '';
-});
+function renderRoom(id){
+  const r = rooms[id];
+  const site = r.site ? `<p><a href="${r.site}" target="_blank" rel="noopener">Open the live site</a></p><iframe src="${r.site}" title="${r.title}"></iframe>` : "";
+  const poster = (id==="tap"||id==="mason") && db.poster ? `<img class="poster" alt="Tap It front" src="${db.poster}"/>` : "";
+  const load = (id==="tap"||id==="mason") ? `<div class="row"><button class="ghost" id="load" type="button">Put the Tap It front in this room</button></div><input id="file" type="file" accept="image/*" hidden/>` : "";
+  return `<button class="back" id="back" type="button">Back to desk</button><h1>${r.title}</h1><p class="who">${r.sub}</p>${poster}${load}${site}<h2>Marks on this room</h2>${markHtml(marksFor(id))}<textarea id="mark" rows="3" placeholder="Write the change."></textarea><div class="row"><button class="solid" id="save" type="button">Save mark</button></div>`;
+}
+function showDesk(){
+  document.getElementById("switch").style.display = "grid";
+  document.getElementById("room").classList.remove("on");
+  document.getElementById("hawk").className = "desk"+(db.who==="hawk"?" on":"");
+  document.getElementById("jeff").className = "desk"+(db.who==="jeff"?" on":"");
+  document.getElementById("bHawk").className = db.who==="hawk"?"on":"";
+  document.getElementById("bJeff").className = db.who==="jeff"?"on":"";
+  document.getElementById("hawk").innerHTML = renderDesk("hawk");
+  document.getElementById("jeff").innerHTML = renderDesk("jeff");
+  document.querySelectorAll("[data-room]").forEach(b => b.onclick = () => openRoom(b.dataset.room));
+}
+function openRoom(id){
+  document.getElementById("switch").style.display = "none";
+  document.getElementById("hawk").classList.remove("on");
+  document.getElementById("jeff").classList.remove("on");
+  const room = document.getElementById("room");
+  room.classList.add("on");
+  room.innerHTML = renderRoom(id);
+  document.getElementById("back").onclick = showDesk;
+  document.getElementById("save").onclick = () => {
+    const text = document.getElementById("mark").value.trim();
+    if(!text) return;
+    db.marks.unshift({ id:Date.now().toString(), room:id, by:db.who, text, at:new Date().toISOString().slice(0,10) });
+    save(); openRoom(id);
+  };
+  const load = document.getElementById("load");
+  if(load){
+    load.onclick = () => document.getElementById("file").click();
+    document.getElementById("file").onchange = (e) => {
+      const file = e.target.files[0]; if(!file) return;
+      const reader = new FileReader();
+      reader.onload = () => { db.poster = reader.result; save(); openRoom(id); };
+      reader.readAsDataURL(file);
+    };
+  }
+}
+document.getElementById("bHawk").onclick = () => { db.who="hawk"; save(); showDesk(); };
+document.getElementById("bJeff").onclick = () => { db.who="jeff"; save(); showDesk(); };
+showDesk();
 </script>
 </body>
 </html>

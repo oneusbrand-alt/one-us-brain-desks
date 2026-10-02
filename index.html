@@ -1,64 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>One US Brain</title>
-<style>
-  :root { --ink:#1c1915; --muted:#6d655c; --line:#e3dbd0; --paper:#f3efe8; --card:#fffcf8; --gold:#8a6a32; }
-  * { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia, Palatino, serif; }
-  button, textarea { font:inherit; color:inherit; }
-  .shell { max-width:760px; margin:0 auto; padding:14px 14px 48px; }
-  .top { display:flex; justify-content:space-between; font:11px/1 -apple-system,sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
-  h1 { font-size:32px; margin:14px 0 2px; } .who { margin:0 0 12px; color:var(--muted); }
-  .switch { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
-  .switch button, .back { border:1px solid var(--line); background:transparent; border-radius:999px; padding:10px; font-family:-apple-system,sans-serif; font-size:14px; }
-  .switch button.on { background:var(--ink); color:var(--paper); }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; margin-bottom:8px; display:block; width:100%; text-align:left; }
-  .card strong { display:block; font-size:17px; } .card em { font-style:normal; color:var(--muted); font:13px/1.35 -apple-system,sans-serif; }
-  h2 { font:600 11px/1.2 -apple-system,sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:16px 0 8px; }
-  .desk, .room { display:none; } .desk.on, .room.on { display:block; }
-  textarea { width:100%; border:1px solid var(--line); border-radius:12px; padding:10px; background:#fff; }
-  .row { display:flex; gap:8px; margin-top:8px; }
-  .solid { border:0; background:var(--ink); color:var(--paper); border-radius:12px; padding:10px 14px; font-family:-apple-system,sans-serif; }
-  .mark { border-left:3px solid var(--gold); } .err { color:#8a3b2f; }
-  table { width:100%; border-collapse:collapse; font:15px/1.4 -apple-system,sans-serif; }
-  td { border-bottom:1px solid var(--line); padding:8px 4px; } td:first-child { color:var(--gold); width:5.2em; }
-  ol { margin:8px 0 0; padding-left:18px; } li { margin:6px 0; }
-</style></head>
-<body>
-<div class="shell">
-  <div class="top"><span>One US Brain</span><span id="state">Connecting</span></div>
-  <div class="switch" id="switch"><button id="bHawk" type="button">Hawk</button><button id="bJeff" class="on" type="button">Jeff</button></div>
-  <section id="hawk" class="desk"></section><section id="jeff" class="desk on"></section><section id="room" class="room"></section>
-</div>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>One US Brain</title>
+<style>:root{--ink:#1c1915;--muted:#6d655c;--line:#e3dbd0;--paper:#f3efe8;--card:#fffcf8;--gold:#8a6a32}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,Palatino,serif}button,textarea{font:inherit;color:inherit}.shell{max-width:760px;margin:0 auto;padding:14px 14px 48px}.top{display:flex;justify-content:space-between;font:11px/1 -apple-system,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}h1{font-size:32px;margin:14px 0 2px}.who{margin:0 0 12px;color:var(--muted)}.switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.switch button,.back{border:1px solid var(--line);background:transparent;border-radius:999px;padding:10px;font-family:-apple-system,sans-serif;font-size:14px}.switch button.on{background:var(--ink);color:var(--paper)}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px;display:block;width:100%;text-align:left}.card strong{display:block;font-size:17px}.card em{font-style:normal;color:var(--muted);font:13px/1.35 -apple-system,sans-serif}h2{font:600 11px/1.2 -apple-system,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}.desk,.room{display:none}.desk.on,.room.on{display:block}textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}.row{display:flex;gap:8px;margin-top:8px}.solid{border:0;background:var(--ink);color:var(--paper);border-radius:12px;padding:10px 14px;font-family:-apple-system,sans-serif}.mark{border-left:3px solid var(--gold)}.err{color:#8a3b2f}ul{margin:8px 0 0;padding-left:18px}li{margin:6px 0}a{color:var(--ink)}iframe{width:100%;height:62vh;border:1px solid var(--line);border-radius:12px;background:#fff}</style></head>
+<body><div class="shell"><div class="top"><span>One US Brain</span><span id="state">Connecting</span></div><div class="switch" id="switch"><button id="bHawk" type="button">Hawk</button><button id="bJeff" class="on" type="button">Jeff</button></div><section id="hawk" class="desk"></section><section id="jeff" class="desk on"></section><section id="room" class="room"></section></div>
 <script>
 const SB="https://suitcxemizusgocytkzg.supabase.co";
 const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aXRjeGVtaXp1c2dvY3l0a3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4OTI3MzgsImV4cCI6MjEwNjQ2ODczOH0.lQjjYxIQW5CC-z2URg8ojGLZ9zIhBLgZZTTcmSng0qo";
 const headers={apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json",Prefer:"return=representation"};
-let db={who:localStorage.getItem("ousb-who")||"jeff",marks:[],err:""}; let openId=null;
+let db={who:localStorage.getItem("ousb-who")||"jeff",marks:[],err:""};let openId=null;
+function miss(name){return `<p>Missing: the real ${name}. Not written here.</p>`;}
 const rooms={
- brand:{title:"One US Brand",sub:"Partners. First project."},
- domains:{title:"Domain list",sub:"Locked.",body:`<table><tr><td>1</td><td>Hawk · 1.oneusbrain.space</td></tr><tr><td>2</td><td>Jeff · 2.oneusbrain.space</td></tr><tr><td>10001</td><td>Jake &amp; the Pitchforks</td></tr><tr><td>100000</td><td>Mason brains start</td></tr><tr><td>100001</td><td>Maine Grand Lodge</td></tr><tr><td>100125</td><td>Lodge 125</td></tr></table>`},
- rollout:{title:"Rollout",sub:"Locked order.",body:`<ol><li>Founder desks. Hawk 1. Jeff 2.</li><li>Jake &amp; the Pitchforks at 10001.</li><li>Mason brains. Maine Grand Lodge 100001.</li><li>Lodge 125 at 100125.</li></ol>`},
- sellout:{title:"Sellout City",sub:"Partners."},
- catalog:{title:"Lil' Ryder / HAK",sub:"Partners."},
- radio:{title:"Pine Tree Trail Lodge Radio",sub:"Partners."},
- lodge:{title:"Pine Tree Trail Lodge",sub:"Partners. Hawk operating lead."},
- jake:{title:"Jake & the Pitchforks",sub:"Partners. 10001. Hawk lead."},
- mason:{title:"MasonBrain",sub:"Partners. Hawk lead."},
- grand:{title:"Maine Grand Lodge",sub:"Partners. 100001."},
- l125:{title:"Lodge 125",sub:"Partners. 100125."},
- putter:{title:"Broken Putter / JW Parks",sub:"Partners. Hawk lead."},
- gym:{title:"Gymnastics / XGTC",sub:"Partners. Hawk lead."}
+ brand:{title:"One US Brand",sub:"Jeff Gonzalez, sole proprietorship. About 25 years of design and marketing.",site:"https://oneusbrand.com",body:`<ul><li>Live site: oneusbrand.com</li><li>This is the commercial practice. Sellout City, Lil' Ryder / HAK, and the radio sit under it.</li><li>Holding company is not formed.</li></ul>${miss("business plan, logo files, and contracts")}`},
+ sellout:{title:"Sellout City",sub:"Character universe. Licensing, video, merch.",site:"https://selloutcity.com",body:`<ul><li>Live site: selloutcity.com</li><li>Characters include the Hawk rooster line and Super Shooters.</li></ul>${miss("series plan, character sheets, and merch files")}`},
+ catalog:{title:"Lil' Ryder / HAK",sub:"Publishing and catalog. HAK Records, Sharke Brothers, ASCAP, Eveara.",body:`<ul><li>Lil' Ryder Music is the publishing side.</li><li>Rights file is not in this room.</li></ul>${miss("song list, splits, and sync list")}`},
+ radio:{title:"Pine Tree Trail Lodge Radio",sub:"24/7 Live365 station. Maine artists, roots, Americana, rockabilly.",body:miss("station plan, sponsor list, and current playlist")},
+ lodge:{title:"Pine Tree Trail Lodge",sub:"Pet-friendly vacation rental, Pittsfield, Maine. Hawk operating lead. Shared.",site:"https://pinetreetraillodge.com",body:`<ul><li>Live site: pinetreetraillodge.com</li><li>Booking runs through Lodgify. Pet fee is part of the operation.</li></ul>${miss("rate sheet, house rules, and photo set")}`},
+ jake:{title:"Jake & the Pitchforks",sub:"Band. Door 10001. Hawk lead. Shared folder.",body:miss("bio, poster, song list, and pitch")},
+ mason:{title:"MasonBrain",sub:"Lodge website work. Hawk lead. Shared folder. Not a founder.",site:"https://125maine.masonbrain.org/",body:`<ul><li>Live site: 125maine.masonbrain.org</li><li>First work cycle is the pitch. Pitch date is not recorded.</li></ul>${miss("pitch deck and the newspaper tap")}`},
+ grand:{title:"Maine Grand Lodge",sub:"Door 100001. Not built.",body:miss("Grand Lodge file")},
+ l125:{title:"Lodge 125",sub:"Meridian Lodge No. 125. Door 100125.",body:`<ul><li>Public site started at 125maine.masonbrain.org</li></ul>${miss("lodge roster, events, and the pitch")}`},
+ putter:{title:"Broken Putter / JW Parks",sub:"Hawk lead. Shared folder.",body:miss("project file")},
+ gym:{title:"Gymnastics / XGTC",sub:"Hawk lead. Shared folder.",body:miss("project file")}
 };
-const folders=[["One US Brand","First project","brand"],["Domain list","Locked numbers","domains"],["Rollout","Locked order","rollout"],["Sellout City","Partners","sellout"],["Lil' Ryder / HAK","Partners","catalog"],["Pine Tree Trail Lodge Radio","Partners","radio"],["Pine Tree Trail Lodge","Partners","lodge"],["Jake & the Pitchforks","10001","jake"],["MasonBrain","Hawk lead","mason"],["Maine Grand Lodge","100001","grand"],["Lodge 125","100125","l125"],["Broken Putter / JW Parks","Hawk lead","putter"],["Gymnastics / XGTC","Hawk lead","gym"]];
+const folders=[["One US Brand","Practice","brand"],["Sellout City","Universe","sellout"],["Lil' Ryder / HAK","Catalog","catalog"],["Pine Tree Trail Lodge Radio","Station","radio"],["Pine Tree Trail Lodge","Rental","lodge"],["Jake & the Pitchforks","10001","jake"],["MasonBrain","Pitch cycle","mason"],["Maine Grand Lodge","100001","grand"],["Lodge 125","100125","l125"],["Broken Putter / JW Parks","Hawk lead","putter"],["Gymnastics / XGTC","Hawk lead","gym"]];
 async function loadMarks(){const res=await fetch(SB+"/rest/v1/marks?select=id,room,by,text,at&order=at.desc",{headers});if(!res.ok){db.err="Marks not loading.";document.getElementById("state").textContent="Not shared";return;}db.marks=await res.json();db.err="";document.getElementById("state").textContent="Shared";paint();}
 function marksFor(room){return db.marks.filter(m=>m.room===room);}
-function card(title,em,room){return `<button class="card" data-room="${room}"><strong>${title}</strong><em>${em}</em></button>`;}
+function card(t,e,r){return `<button class="card" data-room="${r}"><strong>${t}</strong><em>${e}</em></button>`;}
 function markHtml(list){return list.map(m=>`<div class="card mark"><strong>${m.by} · ${m.at}</strong><em>${m.text}</em></div>`).join("")||`<p class="who">No marks yet.</p>`;}
-function renderDesk(who){const name=who==="hawk"?"Hawk":"Jeff";const door=who==="hawk"?"1.oneusbrain.space":"2.oneusbrain.space";const warn=db.err?`<p class="err">${db.err}</p>`:"";return `<h1>${name}</h1><p class="who">${door} · cofounder</p>${warn}<h2>Marks</h2>${markHtml(db.marks.slice(0,6))}<h2>Folders</h2>${folders.map(f=>card(f[0],f[1],f[2])).join("")}`;}
-function renderRoom(id){const r=rooms[id];return `<button class="back" id="back" type="button">Back to desk</button><h1>${r.title}</h1><p class="who">${r.sub}</p>${r.body||""}<h2>Marks</h2>${markHtml(marksFor(id))}<textarea id="mark" rows="3" placeholder="Write the change."></textarea><div class="row"><button class="solid" id="save" type="button">Save mark</button></div>`;}
+function renderDesk(who){const name=who==="hawk"?"Hawk":"Jeff";const door=who==="hawk"?"1.oneusbrain.space":"2.oneusbrain.space";return `<h1>${name}</h1><p class="who">${door} · cofounder</p>${db.err?`<p class="err">${db.err}</p>`:""}<h2>Marks</h2>${markHtml(db.marks.slice(0,4))}<h2>Businesses</h2>${folders.map(f=>card(f[0],f[1],f[2])).join("")}`;}
+function renderRoom(id){const r=rooms[id];const site=r.site?`<p><a href="${r.site}" target="_blank" rel="noopener">Open the live site</a></p><iframe src="${r.site}" title="${r.title}"></iframe>`:"";return `<button class="back" id="back" type="button">Back</button><h1>${r.title}</h1><p class="who">${r.sub}</p>${r.body||""}${site}<h2>Marks</h2>${markHtml(marksFor(id))}<textarea id="mark" rows="3" placeholder="Write the change."></textarea><div class="row"><button class="solid" id="save" type="button">Save mark</button></div>`;}
 function paint(){if(openId)return openRoom(openId);showDesk();}
 function showDesk(){openId=null;document.getElementById("switch").style.display="grid";document.getElementById("room").classList.remove("on");document.getElementById("hawk").className="desk"+(db.who==="hawk"?" on":"");document.getElementById("jeff").className="desk"+(db.who==="jeff"?" on":"");document.getElementById("bHawk").className=db.who==="hawk"?"on":"";document.getElementById("bJeff").className=db.who==="jeff"?"on":"";document.getElementById("hawk").innerHTML=renderDesk("hawk");document.getElementById("jeff").innerHTML=renderDesk("jeff");document.querySelectorAll("[data-room]").forEach(b=>b.onclick=()=>openRoom(b.dataset.room));}
 function openRoom(id){openId=id;document.getElementById("switch").style.display="none";document.getElementById("hawk").classList.remove("on");document.getElementById("jeff").classList.remove("on");const room=document.getElementById("room");room.classList.add("on");room.innerHTML=renderRoom(id);document.getElementById("back").onclick=showDesk;document.getElementById("save").onclick=saveMark;}

@@ -26,7 +26,7 @@
   .mark { border-left:3px solid var(--gold); } .err { color:#8a3b2f; }
   table { width:100%; border-collapse:collapse; font:15px/1.4 -apple-system,sans-serif; }
   td { border-bottom:1px solid var(--line); padding:8px 4px; vertical-align:top; }
-  td:first-child { white-space:nowrap; color:var(--gold); }
+  td:first-child { white-space:nowrap; color:var(--gold); width:5.2em; }
   ol { margin:8px 0 0; padding-left:18px; } li { margin:6px 0; }
 </style></head>
 <body>
@@ -40,22 +40,21 @@ const SB="https://suitcxemizusgocytkzg.supabase.co";
 const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aXRjeGVtaXp1c2dvY3l0a3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4OTI3MzgsImV4cCI6MjEwNjQ2ODczOH0.lQjjYxIQW5CC-z2URg8ojGLZ9zIhBLgZZTTcmSng0qo";
 const headers={apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json",Prefer:"return=representation"};
 let db={who:localStorage.getItem("ousb-who")||"jeff",marks:[],err:""}; let openId=null;
-const domainTable=`<table><tr><td>1</td><td>Hawk · 1.oneusbrain.space</td></tr><tr><td>2</td><td>Jeff · 2.oneusbrain.space</td></tr><tr><td>10001</td><td>Jake &amp; the Pitchforks · 10001.oneusbrain.space</td></tr><tr><td>100000</td><td>Mason brains start</td></tr><tr><td>100001</td><td>Maine Grand Lodge · 100001.oneusbrain.space</td></tr><tr><td>100125</td><td>Lodge 125 · 100125.oneusbrain.space</td></tr></table>`;
-const rollout=`<ol><li>Founder desks. Hawk on 1. Jeff on 2. Live now on the project. Vercel must not be in the address.</li><li>Add 1.oneusbrain.space and 2.oneusbrain.space on the project. Point DNS. Those are the doors.</li><li>Sign-in is who is sitting down. Not a public list.</li><li>Intelligence is a choice on the desk. Not locked to one model.</li><li>Build Jake &amp; the Pitchforks at 10001.</li><li>Build the Mason brain. Range starts at 100000. Maine Grand Lodge is 100001.</li><li>Build Lodge 125 at 100125.</li></ol>`;
 const rooms={
- domains:{title:"Domain list",sub:"Numbers locked in this conversation.",body:domainTable},
- rollout:{title:"Rollout",sub:"Order from this conversation.",body:rollout},
- brand:{title:"One US Brand",sub:"First project on this desk.",body:""},
- lodge:{title:"Pine Tree Trail Lodge",sub:"Shared with Hawk.",body:""},
- jake:{title:"Jake & the Pitchforks",sub:"10001",body:""},
- putter:{title:"Broken Putter / JW Parks",sub:"Hawk.",body:""},
- gym:{title:"Gymnastics / XGTC",sub:"Hawk.",body:""}
+ domains:{title:"Domain list",sub:"From the Oct 1 share copy, plus tonight's Mason numbers.",body:`<table><tr><td>1</td><td>Haakon A. Kallweit · 1.oneusbrain.space</td></tr><tr><td>2</td><td>Jeff Gonzalez · 2.oneusbrain.space</td></tr><tr><td>1001</td><td>Jake · 1001.oneusbrain.space. Share copy. Tonight also said 10001. Not settled.</td></tr><tr><td>100001</td><td>Maine Grand Lodge · 100001.oneusbrain.space. Set tonight.</td></tr><tr><td>100125</td><td>Lodge 125 · 100125.oneusbrain.space. Set tonight.</td></tr><tr><td>*</td><td>Wildcard *.oneusbrain.space later. A domain is a doorway, not the Brain.</td></tr></table>`},
+ rollout:{title:"Rollout",sub:"Order in the Oct 1 share copy.",body:`<ol><li>Jeff and Hawk first. Two person Brains, plus a shared One US Brand organization Brain. Private founder context does not become company knowledge.</li><li>Ledger is beliefs, decisions, outcomes. Real decisions this month, especially pitches.</li><li>Build and see it before DNS. GitHub, then preview, then fix, then DNS.</li><li>Hawk's first work: Pine Tree Trail Lodge. Also Masons, Jake and the Pitchforks, Broken Putter, JW Parks, gymnastics.</li><li>A project is a room. Picture, site, deck, letter stay in the room.</li><li>Four studios in a room: Communications, Creative, Media, Build Release and Commerce.</li><li>First work cycle is the MasonBrain pitch. Do the work, log the decision, build only what hurt.</li></ol>`},
+ brand:{title:"One US Brand",sub:"Shared organization Brain. Not a founder.",body:""},
+ lodge:{title:"Pine Tree Trail Lodge",sub:"Hawk's first project.",body:""},
+ jake:{title:"Jake & the Pitchforks",sub:"Hawk lead. Number not settled.",body:""},
+ mason:{title:"MasonBrain",sub:"First work cycle. Hawk lead.",body:""},
+ putter:{title:"Broken Putter / JW Parks",sub:"Hawk lead.",body:""},
+ gym:{title:"Gymnastics / XGTC",sub:"Hawk lead.",body:""}
 };
 async function loadMarks(){const res=await fetch(SB+"/rest/v1/marks?select=id,room,by,text,at&order=at.desc",{headers});if(!res.ok){db.err="Marks not loading.";document.getElementById("state").textContent="Not shared";return;}db.marks=await res.json();db.err="";document.getElementById("state").textContent="Shared";paint();}
 function marksFor(room){return db.marks.filter(m=>m.room===room);}
 function card(title,em,room){return `<button class="card" data-room="${room}"><strong>${title}</strong><em>${em}</em></button>`;}
 function markHtml(list){return list.map(m=>`<div class="card mark"><strong>${m.by} · ${m.at}</strong><em>${m.text}</em></div>`).join("")||`<p class="who">No marks yet.</p>`;}
-function renderDesk(who){const shared=markHtml(db.marks.slice(0,6));const warn=db.err?`<p class="err">${db.err}</p>`:"";if(who==="hawk")return `<h1>Hawk</h1><p class="who">1.oneusbrain.space</p>${warn}<h2>Shared marks</h2>${shared}<h2>On this desk</h2>${card("Domain list","Locked numbers","domains")}${card("Rollout","Order from this conversation","rollout")}<h2>Projects</h2>${card("Pine Tree Trail Lodge","Shared","lodge")}${card("Jake & the Pitchforks","10001","jake")}${card("Broken Putter / JW Parks","Hawk","putter")}${card("Gymnastics / XGTC","Hawk","gym")}`;return `<h1>Jeff</h1><p class="who">2.oneusbrain.space</p>${warn}<h2>Shared marks</h2>${shared}<h2>On this desk</h2>${card("Domain list","Locked numbers","domains")}${card("Rollout","Order from this conversation","rollout")}<h2>Projects</h2>${card("One US Brand","First project","brand")}${card("Pine Tree Trail Lodge","Shared with Hawk","lodge")}`;}
+function renderDesk(who){const shared=markHtml(db.marks.slice(0,6));const warn=db.err?`<p class="err">${db.err}</p>`:"";const top=`<h2>From the share copy</h2>${card("Domain list","Numbers","domains")}${card("Rollout","Order","rollout")}`;if(who==="hawk")return `<h1>Hawk</h1><p class="who">1.oneusbrain.space</p>${warn}<h2>Marks</h2>${shared}${top}<h2>Hawk's work</h2>${card("Pine Tree Trail Lodge","First project","lodge")}${card("MasonBrain","First work cycle","mason")}${card("Jake & the Pitchforks","Number not settled","jake")}${card("Broken Putter / JW Parks","Hawk","putter")}${card("Gymnastics / XGTC","Hawk","gym")}`;return `<h1>Jeff</h1><p class="who">2.oneusbrain.space</p>${warn}<h2>Marks</h2>${shared}${top}<h2>Projects</h2>${card("One US Brand","Shared organization Brain","brand")}${card("MasonBrain","First work cycle","mason")}${card("Pine Tree Trail Lodge","Shared with Hawk","lodge")}`;}
 function renderRoom(id){const r=rooms[id];return `<button class="back" id="back" type="button">Back to desk</button><h1>${r.title}</h1><p class="who">${r.sub}</p>${r.body||""}<h2>Marks</h2>${markHtml(marksFor(id))}<textarea id="mark" rows="3" placeholder="Write the change."></textarea><div class="row"><button class="solid" id="save" type="button">Save mark</button></div>`;}
 function paint(){if(openId)return openRoom(openId);showDesk();}
 function showDesk(){openId=null;document.getElementById("switch").style.display="grid";document.getElementById("room").classList.remove("on");document.getElementById("hawk").className="desk"+(db.who==="hawk"?" on":"");document.getElementById("jeff").className="desk"+(db.who==="jeff"?" on":"");document.getElementById("bHawk").className=db.who==="hawk"?"on":"";document.getElementById("bJeff").className=db.who==="jeff"?"on":"";document.getElementById("hawk").innerHTML=renderDesk("hawk");document.getElementById("jeff").innerHTML=renderDesk("jeff");document.querySelectorAll("[data-room]").forEach(b=>b.onclick=()=>openRoom(b.dataset.room));}

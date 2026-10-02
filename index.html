@@ -6,26 +6,27 @@
 const SB="https://suitcxemizusgocytkzg.supabase.co";
 const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aXRjeGVtaXp1c2dvY3l0a3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4OTI3MzgsImV4cCI6MjEwNjQ2ODczOH0.lQjjYxIQW5CC-z2URg8ojGLZ9zIhBLgZZTTcmSng0qo";
 const headers={apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json",Prefer:"return=representation"};
-let db={who:localStorage.getItem("ousb-who")||"jeff",marks:[],projects:[],assets:[],err:""};let openId=null;
-const known={lodge:{bad:true,note:"pinetreetraillodge.com points at Replit. No app is there. Not a live site."}};
+let db={who:localStorage.getItem("ousb-who")||"jeff",marks:[],projects:[],err:""};let openId=null;
+const live=[
+ ["oneusbrain.digital","Only live One US Brain domain. Checked 200.","https://oneusbrain.digital"],
+ ["125 Masons","Already up. Not built in this pass.","https://125maine.masonbrain.org"],
+ ["Jake & the Pitchforks","Already up. Address not recorded here.",""]
+];
+const dead=[["oneusbrain.space","Not live."],["pinetreetraillodge.com","Empty doorway. No Replit app."]];
 async function loadAll(){
  const h={headers};
- const [m,p,a]=await Promise.all([
+ const [m,p]=await Promise.all([
   fetch(SB+"/rest/v1/marks?select=id,room,by,text,at&order=at.desc",h),
-  fetch(SB+"/rest/v1/projects?select=id,name,door,lead",h),
-  fetch(SB+"/rest/v1/assets?select=id,project_id,kind,title,source,status",h)
+  fetch(SB+"/rest/v1/projects?select=id,name,door,lead",h)
  ]);
- if(!m.ok||!p.ok||!a.ok){db.err="Brain not reading.";document.getElementById("state").textContent="Not reading";return;}
- db.marks=await m.json();db.projects=await p.json();db.assets=await a.json();db.err="";document.getElementById("state").textContent="Reading";paint();
+ if(!m.ok||!p.ok){db.err="Brain not reading.";document.getElementById("state").textContent="Not reading";return;}
+ db.marks=await m.json();db.projects=await p.json();db.err="";document.getElementById("state").textContent="Reading";paint();
 }
-function card(t,e,r){return `<button class="card" data-room="${r}"><strong>${t}</strong><em>${e}</em></button>`;}
+function card(t,e){return `<div class="card"><strong>${t}</strong><em>${e}</em></div>`;}
 function markHtml(list){return list.map(m=>`<div class="card mark"><strong>${m.by} · ${m.at}</strong><em>${m.text}</em></div>`).join("")||`<p class="who">No marks yet.</p>`;}
-function renderDesk(who){const name=who==="hawk"?"Hawk":"Jeff";const door=who==="hawk"?"1.oneusbrain.space":"2.oneusbrain.space";return `<h1>${name}</h1><p class="who">${door} is not the door yet. This is the desk.</p>${db.err?`<p class="err">${db.err}</p>`:""}<div class="card"><strong>Broken</strong><em>No sign-in. No 1 or 2 domain. Lodge address is empty. No Drive files. No canon. No plan. No email. Studios are labels.</em></div><h2>Brain rows</h2>${db.projects.map(p=>card(p.name,"lead "+p.lead,p.id)).join("")||"<p class=who>No projects.</p>"}<h2>Marks</h2>${markHtml(db.marks.slice(0,4))}`;}
-function renderRoom(id){const p=db.projects.find(x=>x.id===id);const assets=db.assets.filter(x=>x.project_id===id);const title=p?p.name:id;const note=known[id]?`<p class="err">${known[id].note}</p>`:"";const list=assets.map(a=>`<div class="card"><strong>${a.title}</strong><em>${a.kind} · ${known[id]?"empty doorway":a.status}</em></div>`).join("")||"<p class=who>No assets.</p>";return `<button class="back" id="back" type="button">Back</button><h1>${title}</h1><p class="who">${p?"Row is in the Brain.":"No Brain row."}</p>${note}<h2>Assets</h2>${list}<h2>Marks</h2>${markHtml(db.marks.filter(m=>m.room===id))}<textarea id="mark" rows="3" placeholder="Write the change."></textarea><div class="row"><button class="solid" id="save" type="button">Save mark</button></div>`;}
-function paint(){if(openId)return openRoom(openId);showDesk();}
-function showDesk(){openId=null;document.getElementById("switch").style.display="grid";document.getElementById("room").classList.remove("on");document.getElementById("hawk").className="desk"+(db.who==="hawk"?" on":"");document.getElementById("jeff").className="desk"+(db.who==="jeff"?" on":"");document.getElementById("bHawk").className=db.who==="hawk"?"on":"";document.getElementById("bJeff").className=db.who==="jeff"?"on":"";document.getElementById("hawk").innerHTML=renderDesk("hawk");document.getElementById("jeff").innerHTML=renderDesk("jeff");document.querySelectorAll("[data-room]").forEach(b=>b.onclick=()=>openRoom(b.dataset.room));}
-function openRoom(id){openId=id;document.getElementById("switch").style.display="none";document.getElementById("hawk").classList.remove("on");document.getElementById("jeff").classList.remove("on");const room=document.getElementById("room");room.classList.add("on");room.innerHTML=renderRoom(id);document.getElementById("back").onclick=showDesk;document.getElementById("save").onclick=saveMark;}
-async function saveMark(){const text=document.getElementById("mark").value.trim();if(!text)return;const row={id:Date.now().toString(),room:openId,by:db.who,text,at:new Date().toISOString().slice(0,16).replace("T"," ")};const res=await fetch(SB+"/rest/v1/marks",{method:"POST",headers,body:JSON.stringify(row)});if(!res.ok){db.err="Save failed.";paint();return;}await loadAll();}
-document.getElementById("bHawk").onclick=()=>{db.who="hawk";localStorage.setItem("ousb-who","hawk");showDesk();};document.getElementById("bJeff").onclick=()=>{db.who="jeff";localStorage.setItem("ousb-who","jeff");showDesk();};
-showDesk();loadAll();setInterval(loadAll,8000);
+function renderDesk(who){const name=who==="hawk"?"Hawk":"Jeff";const door=who==="hawk"?"1.oneusbrain.space":"2.oneusbrain.space";return `<h1>${name}</h1><p class="who">${door} is not a door yet.</p>${db.err?`<p class="err">${db.err}</p>`:""}<h2>Live, not made by this build</h2>${live.map(x=>card(x[0],x[1]+(x[2]?` <a href="${x[2]}" target="_blank" rel="noopener">open</a>`:""))).join("")}<h2>Dead</h2>${dead.map(x=>card(x[0],x[1])).join("")}<h2>Brain rows</h2>${db.projects.map(p=>card(p.name,"lead "+p.lead)).join("")||"<p class=who>No projects.</p>"}<h2>Marks</h2>${markHtml(db.marks.slice(0,4))}<textarea id="mark" rows="3" placeholder="Write the change."></textarea><div class="row"><button class="solid" id="save" type="button">Save mark</button></div>`;}
+function paint(){document.getElementById("hawk").className="desk"+(db.who==="hawk"?" on":"");document.getElementById("jeff").className="desk"+(db.who==="jeff"?" on":"");document.getElementById("bHawk").className=db.who==="hawk"?"on":"";document.getElementById("bJeff").className=db.who==="jeff"?"on":"";document.getElementById("hawk").innerHTML=renderDesk("hawk");document.getElementById("jeff").innerHTML=renderDesk("jeff");const s=document.querySelector(".desk.on #save");if(s)s.onclick=saveMark;}
+async function saveMark(){const text=document.querySelector(".desk.on #mark").value.trim();if(!text)return;const row={id:Date.now().toString(),room:"desk",by:db.who,text,at:new Date().toISOString().slice(0,16).replace("T"," ")};const res=await fetch(SB+"/rest/v1/marks",{method:"POST",headers,body:JSON.stringify(row)});if(!res.ok){db.err="Save failed.";paint();return;}await loadAll();}
+document.getElementById("bHawk").onclick=()=>{db.who="hawk";localStorage.setItem("ousb-who","hawk");paint();};document.getElementById("bJeff").onclick=()=>{db.who="jeff";localStorage.setItem("ousb-who","jeff");paint();};
+paint();loadAll();setInterval(loadAll,8000);
 </script></body></html>

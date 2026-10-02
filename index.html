@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>One US Brain desks</title>
+<title>One US Brain</title>
 <style>
   :root { --ink:#1c1915; --muted:#6d655c; --line:#e3dbd0; --paper:#f3efe8; --card:#fffcf8; --gold:#8a6a32; }
   * { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia, Palatino, serif; }
@@ -20,12 +20,12 @@
   .card { display:block; width:100%; text-align:left; } .card strong { display:block; font-size:17px; }
   .card em { font-style:normal; color:var(--muted); font:13px/1.35 -apple-system,sans-serif; }
   .desk, .room { display:none; } .desk.on, .room.on { display:block; }
-  iframe { width:100%; height:68vh; border:1px solid var(--line); border-radius:12px; background:#fff; }
+  iframe { width:100%; height:62vh; border:1px solid var(--line); border-radius:12px; background:#fff; }
   textarea { width:100%; border:1px solid var(--line); border-radius:12px; padding:10px; background:#fff; }
   .row { display:flex; gap:8px; margin-top:8px; }
   .solid { border:0; background:var(--ink); color:var(--paper); border-radius:12px; padding:10px 14px; font-family:-apple-system,sans-serif; }
   .mark { border-left:3px solid var(--gold); } a { color:var(--ink); } .err { color:#8a3b2f; }
-  ul { margin:8px 0 0; padding-left:18px; } li { margin:4px 0; }
+  ul { margin:8px 0 0; padding-left:18px; } li { margin:6px 0; }
 </style></head>
 <body>
 <div class="shell">
@@ -39,10 +39,11 @@ const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6
 const headers={apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json",Prefer:"return=representation"};
 let db={who:localStorage.getItem("ousb-who")||"jeff",marks:[],err:""}; let openId=null;
 const rooms={
- brand:{title:"One US Brand",sub:"Jeff's brand. First project on this desk.",site:"https://oneusbrand.com",body:`<ul><li>Sole proprietorship. Graphic design, marketing, advertising. 20+ years.</li><li>Holding name for the work: Sellout City, Lil' Ryder / HAK, the radio, the lodge share with Hawk.</li><li>Live site is the object in this room. oneusbrand.com</li><li>Planned holding: Kallweit &amp; Gonzalez Holdings LLC, One US Brand as a DBA.</li><li>Doors: selloutcity.com, oneusbrain.website, austincoffeecup.com, nashvillecoffeecup.com</li></ul>`},
- sellout:{title:"Sellout City",sub:"Character universe under the brand.",site:"https://selloutcity.com"},
+ brain:{title:"One US Brain",sub:"Overseer and executioner. This is the start.",site:null,body:`<ul><li>Role: number one brain. Sees the desks. Runs the work. Does not replace Jeff or Hawk.</li><li>Start: oneusbrain.space</li><li>Doors: Hawk 1. Jeff 2. Jake &amp; the Pitchforks 10001. Mason range starts at 100000. Maine Grand Lodge 100001. Lodge 125 is 100125.</li><li>Intelligence is chosen on the desk. Not locked to one model.</li><li>Holding company is not set up. It is not in this room.</li></ul>`},
+ brand:{title:"One US Brand",sub:"25-year practice. First project on Jeff's desk.",site:"https://oneusbrand.com",body:`<ul><li>What it is: Jeff's design and marketing practice. About 25 years. Sole proprietorship.</li><li>What it does: the commercial work under the brain. Sites, marks, identity, merch.</li><li>Live object: oneusbrand.com</li><li>Under it: Sellout City. Lil' Ryder / HAK. Pine Tree Trail Lodge Radio.</li><li>Not in this room: a holding company. That is not formed.</li></ul>`},
+ sellout:{title:"Sellout City",sub:"Under One US Brand.",site:"https://selloutcity.com"},
  catalog:{title:"Lil' Ryder / HAK",sub:"Publishing and catalog. No rights file in this room yet.",site:null},
- radio:{title:"Pine Tree Trail Lodge Radio",sub:"24/7 station. Maine artists.",site:null},
+ radio:{title:"Pine Tree Trail Lodge Radio",sub:"Station. Under the brand.",site:null},
  lodge:{title:"Pine Tree Trail Lodge",sub:"Shared with Hawk.",site:"https://pinetreetraillodge.com"},
  jake:{title:"Jake & the Pitchforks",sub:"10001.oneusbrain.space",site:null},
  putter:{title:"Broken Putter / JW Parks",sub:"Hawk.",site:null},
@@ -52,7 +53,7 @@ async function loadMarks(){const res=await fetch(SB+"/rest/v1/marks?select=id,ro
 function marksFor(room){return db.marks.filter(m=>m.room===room);}
 function card(title,em,room){return `<button class="card" data-room="${room}"><strong>${title}</strong><em>${em}</em></button>`;}
 function markHtml(list){return list.map(m=>`<div class="card mark"><strong>${m.by} · ${m.at}</strong><em>${m.text}</em></div>`).join("")||`<p class="who">No marks yet.</p>`;}
-function renderDesk(who){const shared=markHtml(db.marks.slice(0,6));const warn=db.err?`<p class="err">${db.err}</p>`:"";if(who==="hawk")return `<h1>Hawk</h1><p class="who">Haakon A. Kallweit · 1</p>${warn}<div class="q"><b>This desk</b><p>Hawk's.</p></div><h2>Shared marks</h2>${shared}<h2>Projects</h2>${card("Pine Tree Trail Lodge","Operating lead","lodge")}${card("Jake & the Pitchforks","10001","jake")}${card("Broken Putter / JW Parks","Hawk","putter")}${card("Gymnastics / XGTC","Hawk","gym")}`;return `<h1>Jeff</h1><p class="who">Jeff Gonzalez · 2</p>${warn}<div class="q"><b>This desk</b><p>Yours. First project is One US Brand.</p></div><h2>Shared marks</h2>${shared}<h2>Projects</h2>${card("One US Brand","First project","brand")}${card("Sellout City","Under the brand","sellout")}${card("Lil' Ryder / HAK","Publishing","catalog")}${card("Pine Tree Trail Lodge Radio","Station","radio")}${card("Pine Tree Trail Lodge","Shared with Hawk","lodge")}`;}
+function renderDesk(who){const shared=markHtml(db.marks.slice(0,6));const warn=db.err?`<p class="err">${db.err}</p>`:"";if(who==="hawk")return `<h1>Hawk</h1><p class="who">Haakon A. Kallweit · 1</p>${warn}<div class="q"><b>Overseer</b><p>One US Brain. Hawk's door is 1.</p></div><h2>Shared marks</h2>${shared}<h2>Projects</h2>${card("One US Brain","Overseer","brain")}${card("Pine Tree Trail Lodge","Operating lead","lodge")}${card("Jake & the Pitchforks","10001","jake")}${card("Broken Putter / JW Parks","Hawk","putter")}${card("Gymnastics / XGTC","Hawk","gym")}`;return `<h1>Jeff</h1><p class="who">Jeff Gonzalez · 2</p>${warn}<div class="q"><b>Overseer</b><p>One US Brain. Your door is 2. First project is One US Brand.</p></div><h2>Shared marks</h2>${shared}<h2>Projects</h2>${card("One US Brain","Overseer and executioner","brain")}${card("One US Brand","First project","brand")}${card("Sellout City","Under the brand","sellout")}${card("Lil' Ryder / HAK","Publishing","catalog")}${card("Pine Tree Trail Lodge Radio","Station","radio")}${card("Pine Tree Trail Lodge","Shared with Hawk","lodge")}`;}
 function renderRoom(id){const r=rooms[id];const site=r.site?`<p><a href="${r.site}" target="_blank" rel="noopener">Open the live site</a></p><iframe src="${r.site}" title="${r.title}"></iframe>`:"";return `<button class="back" id="back" type="button">Back to desk</button><h1>${r.title}</h1><p class="who">${r.sub}</p>${r.body||""}${site}<h2>Marks on this room</h2>${markHtml(marksFor(id))}<textarea id="mark" rows="3" placeholder="Write the change."></textarea><div class="row"><button class="solid" id="save" type="button">Save mark</button></div>`;}
 function paint(){if(openId)return openRoom(openId);showDesk();}
 function showDesk(){openId=null;document.getElementById("switch").style.display="grid";document.getElementById("room").classList.remove("on");document.getElementById("hawk").className="desk"+(db.who==="hawk"?" on":"");document.getElementById("jeff").className="desk"+(db.who==="jeff"?" on":"");document.getElementById("bHawk").className=db.who==="hawk"?"on":"";document.getElementById("bJeff").className=db.who==="jeff"?"on":"";document.getElementById("hawk").innerHTML=renderDesk("hawk");document.getElementById("jeff").innerHTML=renderDesk("jeff");document.querySelectorAll("[data-room]").forEach(b=>b.onclick=()=>openRoom(b.dataset.room));}

@@ -14,19 +14,16 @@
   .switch { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
   .switch button, .back { border:1px solid var(--line); background:transparent; border-radius:999px; padding:10px; font-family:-apple-system,sans-serif; font-size:14px; }
   .switch button.on { background:var(--ink); color:var(--paper); }
-  .q, .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; margin-bottom:8px; }
-  .q b, h2 { font:600 11px/1.2 -apple-system,sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); }
-  h2 { color:var(--muted); margin:16px 0 8px; }
-  .card { display:block; width:100%; text-align:left; } .card strong { display:block; font-size:17px; }
-  .card em { font-style:normal; color:var(--muted); font:13px/1.35 -apple-system,sans-serif; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; margin-bottom:8px; display:block; width:100%; text-align:left; }
+  .card strong { display:block; font-size:17px; } .card em { font-style:normal; color:var(--muted); font:13px/1.35 -apple-system,sans-serif; }
+  h2 { font:600 11px/1.2 -apple-system,sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:16px 0 8px; }
   .desk, .room { display:none; } .desk.on, .room.on { display:block; }
   textarea { width:100%; border:1px solid var(--line); border-radius:12px; padding:10px; background:#fff; }
   .row { display:flex; gap:8px; margin-top:8px; }
   .solid { border:0; background:var(--ink); color:var(--paper); border-radius:12px; padding:10px 14px; font-family:-apple-system,sans-serif; }
   .mark { border-left:3px solid var(--gold); } .err { color:#8a3b2f; }
   table { width:100%; border-collapse:collapse; font:15px/1.4 -apple-system,sans-serif; }
-  td { border-bottom:1px solid var(--line); padding:8px 4px; vertical-align:top; }
-  td:first-child { white-space:nowrap; color:var(--gold); width:5.2em; }
+  td { border-bottom:1px solid var(--line); padding:8px 4px; } td:first-child { color:var(--gold); width:5.2em; }
   ol { margin:8px 0 0; padding-left:18px; } li { margin:6px 0; }
 </style></head>
 <body>
@@ -41,17 +38,26 @@ const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6
 const headers={apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json",Prefer:"return=representation"};
 let db={who:localStorage.getItem("ousb-who")||"jeff",marks:[],err:""}; let openId=null;
 const rooms={
- domains:{title:"Domain list",sub:"Locked.",body:`<table><tr><td>1</td><td>Hawk · 1.oneusbrain.space</td></tr><tr><td>2</td><td>Jeff · 2.oneusbrain.space</td></tr><tr><td>10001</td><td>Jake &amp; the Pitchforks · 10001.oneusbrain.space</td></tr><tr><td>100000</td><td>Mason brains start</td></tr><tr><td>100001</td><td>Maine Grand Lodge · 100001.oneusbrain.space</td></tr><tr><td>100125</td><td>Lodge 125 · 100125.oneusbrain.space</td></tr></table>`},
- rollout:{title:"Rollout",sub:"Locked order.",body:`<ol><li>Founder desks. Hawk on 1. Jeff on 2. No Vercel in the address.</li><li>Sign-in is who is sitting down.</li><li>Intelligence is a choice on the desk.</li><li>Jake &amp; the Pitchforks at 10001.</li><li>Mason brains. Maine Grand Lodge at 100001.</li><li>Lodge 125 at 100125.</li></ol>`},
- brand:{title:"One US Brand",sub:"First project on Jeff's desk.",body:""},
- lodge:{title:"Pine Tree Trail Lodge",sub:"Shared with Hawk.",body:""},
- jake:{title:"Jake & the Pitchforks",sub:"10001.oneusbrain.space",body:""}
+ brand:{title:"One US Brand",sub:"Partners. First project."},
+ domains:{title:"Domain list",sub:"Locked.",body:`<table><tr><td>1</td><td>Hawk · 1.oneusbrain.space</td></tr><tr><td>2</td><td>Jeff · 2.oneusbrain.space</td></tr><tr><td>10001</td><td>Jake &amp; the Pitchforks</td></tr><tr><td>100000</td><td>Mason brains start</td></tr><tr><td>100001</td><td>Maine Grand Lodge</td></tr><tr><td>100125</td><td>Lodge 125</td></tr></table>`},
+ rollout:{title:"Rollout",sub:"Locked order.",body:`<ol><li>Founder desks. Hawk 1. Jeff 2.</li><li>Jake &amp; the Pitchforks at 10001.</li><li>Mason brains. Maine Grand Lodge 100001.</li><li>Lodge 125 at 100125.</li></ol>`},
+ sellout:{title:"Sellout City",sub:"Partners."},
+ catalog:{title:"Lil' Ryder / HAK",sub:"Partners."},
+ radio:{title:"Pine Tree Trail Lodge Radio",sub:"Partners."},
+ lodge:{title:"Pine Tree Trail Lodge",sub:"Partners. Hawk operating lead."},
+ jake:{title:"Jake & the Pitchforks",sub:"Partners. 10001. Hawk lead."},
+ mason:{title:"MasonBrain",sub:"Partners. Hawk lead."},
+ grand:{title:"Maine Grand Lodge",sub:"Partners. 100001."},
+ l125:{title:"Lodge 125",sub:"Partners. 100125."},
+ putter:{title:"Broken Putter / JW Parks",sub:"Partners. Hawk lead."},
+ gym:{title:"Gymnastics / XGTC",sub:"Partners. Hawk lead."}
 };
+const folders=[["One US Brand","First project","brand"],["Domain list","Locked numbers","domains"],["Rollout","Locked order","rollout"],["Sellout City","Partners","sellout"],["Lil' Ryder / HAK","Partners","catalog"],["Pine Tree Trail Lodge Radio","Partners","radio"],["Pine Tree Trail Lodge","Partners","lodge"],["Jake & the Pitchforks","10001","jake"],["MasonBrain","Hawk lead","mason"],["Maine Grand Lodge","100001","grand"],["Lodge 125","100125","l125"],["Broken Putter / JW Parks","Hawk lead","putter"],["Gymnastics / XGTC","Hawk lead","gym"]];
 async function loadMarks(){const res=await fetch(SB+"/rest/v1/marks?select=id,room,by,text,at&order=at.desc",{headers});if(!res.ok){db.err="Marks not loading.";document.getElementById("state").textContent="Not shared";return;}db.marks=await res.json();db.err="";document.getElementById("state").textContent="Shared";paint();}
 function marksFor(room){return db.marks.filter(m=>m.room===room);}
 function card(title,em,room){return `<button class="card" data-room="${room}"><strong>${title}</strong><em>${em}</em></button>`;}
 function markHtml(list){return list.map(m=>`<div class="card mark"><strong>${m.by} · ${m.at}</strong><em>${m.text}</em></div>`).join("")||`<p class="who">No marks yet.</p>`;}
-function renderDesk(who){const shared=markHtml(db.marks.slice(0,6));const warn=db.err?`<p class="err">${db.err}</p>`:"";const top=`<h2>Locked</h2>${card("Domain list","Numbers","domains")}${card("Rollout","Order","rollout")}`;if(who==="hawk")return `<h1>Hawk</h1><p class="who">1.oneusbrain.space</p>${warn}<h2>Marks</h2>${shared}${top}<h2>Projects</h2>${card("Pine Tree Trail Lodge","Shared","lodge")}${card("Jake & the Pitchforks","10001","jake")}`;return `<h1>Jeff</h1><p class="who">2.oneusbrain.space</p>${warn}<h2>Marks</h2>${shared}${top}<h2>Projects</h2>${card("One US Brand","First project","brand")}${card("Pine Tree Trail Lodge","Shared with Hawk","lodge")}`;}
+function renderDesk(who){const name=who==="hawk"?"Hawk":"Jeff";const door=who==="hawk"?"1.oneusbrain.space":"2.oneusbrain.space";const warn=db.err?`<p class="err">${db.err}</p>`:"";return `<h1>${name}</h1><p class="who">${door} · cofounder</p>${warn}<h2>Marks</h2>${markHtml(db.marks.slice(0,6))}<h2>Folders</h2>${folders.map(f=>card(f[0],f[1],f[2])).join("")}`;}
 function renderRoom(id){const r=rooms[id];return `<button class="back" id="back" type="button">Back to desk</button><h1>${r.title}</h1><p class="who">${r.sub}</p>${r.body||""}<h2>Marks</h2>${markHtml(marksFor(id))}<textarea id="mark" rows="3" placeholder="Write the change."></textarea><div class="row"><button class="solid" id="save" type="button">Save mark</button></div>`;}
 function paint(){if(openId)return openRoom(openId);showDesk();}
 function showDesk(){openId=null;document.getElementById("switch").style.display="grid";document.getElementById("room").classList.remove("on");document.getElementById("hawk").className="desk"+(db.who==="hawk"?" on":"");document.getElementById("jeff").className="desk"+(db.who==="jeff"?" on":"");document.getElementById("bHawk").className=db.who==="hawk"?"on":"";document.getElementById("bJeff").className=db.who==="jeff"?"on":"";document.getElementById("hawk").innerHTML=renderDesk("hawk");document.getElementById("jeff").innerHTML=renderDesk("jeff");document.querySelectorAll("[data-room]").forEach(b=>b.onclick=()=>openRoom(b.dataset.room));}
